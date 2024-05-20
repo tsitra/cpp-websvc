@@ -16,6 +16,6 @@ int main()
 {
 	Service svc;
 	svc.doThing();
-	return 1;
+	return 0;
 }
 

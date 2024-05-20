@@ -9,9 +9,12 @@ all:
 	BUILD +docker
 
 build:
-	RUN apk add build-base clang clang-dev alpine-sdk dpkg cmake ccache
-	COPY ./src ./
-	RUN g++ -o websvc main.cpp
+	RUN apk add build-base clang clang-dev alpine-sdk dpkg cmake ccache boost-dev libressl-dev
+	COPY ./src/*linux.* ./
+	RUN pwd && ls -Fal
+	RUN g++ -c -o http_tcpServer_linux.o http_tcpServer_linux.cpp -I.
+	RUN g++ -c -o server_linux.o server_linux.cpp -I.
+	RUN g++ -o websvc server_linux.o http_tcpServer_linux.o -L.
 	SAVE ARTIFACT websvc AS LOCAL build-output/websvc
 
 docker:
